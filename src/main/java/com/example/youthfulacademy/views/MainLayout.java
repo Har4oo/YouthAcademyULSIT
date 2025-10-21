@@ -7,7 +7,9 @@ import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.router.Router;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
@@ -23,33 +25,37 @@ public class MainLayout extends AppLayout {
     }
 
     private void createHeader() {
-        Header header = new Header();
-        header.addClassNames(
-                LumoUtility.Display.FLEX,            // Use Flexbox
-                LumoUtility.AlignItems.CENTER,       // Vertically center the title and links
-                LumoUtility.JustifyContent.BETWEEN,  // <-- PUSHES CHILDREN TO OPPOSITE ENDS
-                LumoUtility.Width.FULL,              // Make the header span the full width
-                LumoUtility.Padding.Vertical.SMALL,
-                LumoUtility.Padding.Horizontal.MEDIUM,
-                LumoUtility.BoxSizing.BORDER    // Ensures padding doesn't break layout
-        );
-        H1 siteTitle = new H1("Website Title");
+        H1 siteTitle = new H1("YouthFull Academy");
         siteTitle.addClassNames(
                 LumoUtility.FontSize.LARGE,
-                LumoUtility.Margin.NONE // Remove default margin from H1
-        );
-        HorizontalLayout siteLinks = new HorizontalLayout(
-                new RouterLink("link1", AboutView.class),
-                new RouterLink("link2", ScheduleView.class), // Assuming these views exist
-                new RouterLink("link3", ContactView.class),
-                new RouterLink("link4", AboutView.class) // Dummy link
+                LumoUtility.Margin.MEDIUM
         );
 
-        H1 siteTitle = new H1("YouthFull Academy");
+        RouterLink link1 = new RouterLink("About", AboutView.class);
+        RouterLink link2 = new RouterLink("Contacts", ContactView.class);
+        RouterLink link3 = new RouterLink("Schedule", ScheduleView.class);
 
-        titleDiv.add(siteTitle);
+        HorizontalLayout siteLinks = new HorizontalLayout(link1, link2, link3);
+        siteLinks.setAlignItems(FlexComponent.Alignment.CENTER);
+        siteLinks.addClassNames(LumoUtility.Gap.MEDIUM);
+        HorizontalLayout navbar = new HorizontalLayout(siteTitle, siteLinks);
+        navbar.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+        navbar.addClassNames(
+                LumoUtility.AlignItems.CENTER,
+                LumoUtility.Padding.Vertical.LARGE,
+                LumoUtility.Padding.Horizontal.LARGE,
+                LumoUtility.Margin.MEDIUM
+        );
+        navbar.getStyle().set("color", "white")
+                .set("margin", "var(--lumo-space-m)")
+                .set("background", "rgba(255,255,255,0.1)")
+                .set("text-decoration", "none")
+                .set("border-radius", "6px")
+                .set("transition", "all 0.3s ease")
+                .set("background", "rgba(255,255,255,0.1)");
+        navbar.setWidthFull();
 
-        addToNavbar(titleDiv, linksDiv);
+        addToNavbar(navbar);
     }
 
     private void createFooter() {
